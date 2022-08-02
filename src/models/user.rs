@@ -1,4 +1,3 @@
-
 use crate::diesel::ExpressionMethods;
 use crate::diesel::QueryDsl;
 use crate::diesel::RunQueryDsl;
@@ -9,14 +8,13 @@ use diesel::result;
 use serde;
 use serde::ser::SerializeStruct;
 use serde::{Deserialize, Serialize, Serializer};
-use crate::services::mail::send_confirmation_email;
 
-#[derive(Queryable, Debug)]
+#[derive(Queryable)]
 pub struct User {
     pub id: String,
     pub email: String,
     pub pass: String,
-    confirmed: bool
+    pub confirmed: bool,
 }
 
 impl Serialize for User {
@@ -47,8 +45,17 @@ impl User {
             id: String::from(&payload.sub),
             email: String::from(&payload.email),
             pass: String::new(),
-            confirmed: true
+            confirmed: true,
         }
+    }
+
+    pub fn confirm_registration(
+        id: String,
+        connection: &PgConnection,
+    ) -> Result<Self, result::Error> {
+        diesel::update(users::table.find(&id))
+            .set(users::confirmed.eq(true))
+            .get_result::<User>(connection)
     }
 }
 
@@ -73,12 +80,8 @@ impl NewUser {
             email: String::from(email),
             pass: hash_pass,
         };
-
-        send_confirmation_email(&email).await.unwrap();
-        
         diesel::insert_into(users::table)
             .values(&user)
             .get_result::<User>(connection)
     }
-    
 }

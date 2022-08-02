@@ -1,4 +1,3 @@
-
 #[macro_use]
 extern crate diesel;
 //use actix_cors::Cors;
@@ -8,14 +7,13 @@ use actix_web::{
     App, HttpResponse, HttpServer,
 };
 
-// pub mod jwt;
 // pub mod middleware;
 pub mod models;
 pub mod routes;
 pub mod schema;
+pub mod services;
 pub mod state;
 pub mod valid;
-pub mod services;
 
 pub async fn start() -> std::io::Result<()> {
     HttpServer::new(|| {
@@ -33,28 +31,11 @@ pub async fn start() -> std::io::Result<()> {
 fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(web::resource("/").route(web::get().to(HttpResponse::Ok)));
 
-    //cfg.service(web::resource("/login").route(web::post().to(routes::auth::login::handle)));
+    cfg.service(web::resource("/login").route(web::post().to(routes::auth::login::handle)));
     cfg.service(web::resource("/register").route(web::post().to(routes::auth::register::handle)));
-    // cfg.service(
-    //     web::resource("/tasks")
-    //         .route(web::post().to(routes::tasks::new::handle))
-    //         .route(web::get().to(routes::tasks::user_tasks::handle))
-    //         .route(web::delete().to(routes::tasks::delete_all::handle))
-    //         .wrap(crate::middleware::auth::AuthGuard),
-    // );
-    // cfg.service(
-    //     web::resource("/tasks/{id}")
-    //         .route(web::get().to(routes::tasks::get_specific::handle))
-    //         .route(web::put().to(routes::tasks::update::handle))
-    //         .route(web::delete().to(routes::tasks::delete_specific::handle))
-    //         .wrap(crate::middleware::auth::AuthGuard),
-    // );
-
-    // cfg.service(
-    //     web::resource("/tasks/{id}/check")
-    //         .route(web::put().to(routes::tasks::check::handle))
-    //         .wrap(crate::middleware::auth::AuthGuard),
-    // );
+    cfg.service(
+        web::resource("/confirm/{token}").route(web::get().to(routes::auth::confirmation::handle)),
+    );
 }
 
 // fn setup_cors() -> Cors {
