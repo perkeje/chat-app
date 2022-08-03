@@ -4,7 +4,7 @@ use lettre::{
 };
 use std::env;
 
-use crate::models::user::User;
+use crate::models::auth::user::User;
 
 pub async fn send_confirmation_email(user: &User) -> Result<(), Box<dyn std::error::Error>> {
     let smtp_credentials = Credentials::new(

@@ -7,13 +7,17 @@ edition = "2021"
 
 [dependencies]
 diesel = { version = "1.4.8", features = ["postgres","r2d2"] }
+
 dotenv = "0.15.0"
 actix-web = "4"
 bcrypt = "0.13.0"
-websocket = "0.26.5"
 serde = { version = "1.0.139", features = ["derive"] }
 serde_json = "1.0"
 jsonwebtoken = "8.1.1"
 chrono = "0.4.19"
 validr = "0.3.0"
 lettre = {version="0.10.1",default-features = false, features = ["smtp-transport", "tokio1-rustls-tls", "hostname", "builder"]  }
+actix-web-actors = "4.1.0"
+uuid = {version = "1.1.2", features=["v4"]}
+actix = "0.13.0"
+actix-cors = "0.6.1"

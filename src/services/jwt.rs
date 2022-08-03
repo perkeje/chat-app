@@ -1,4 +1,4 @@
-use crate::models::user::User;
+use crate::models::auth::user::User;
 use chrono::prelude::*;
 use jsonwebtoken;
 use serde::{Deserialize, Serialize};

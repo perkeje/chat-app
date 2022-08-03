@@ -1,4 +1,4 @@
-use crate::models::user::NewUser;
+use crate::models::auth::user::NewUser;
 use crate::services::mail::send_confirmation_email;
 use crate::state::app::AppState;
 use crate::valid::new_user_req::NewUserReq;

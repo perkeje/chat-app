@@ -1,4 +1,4 @@
-use crate::models::auth::AuthUser;
+use crate::models::auth::auth::AuthUser;
 use crate::state::app::AppState;
 use actix_web::{web, HttpResponse};
 
