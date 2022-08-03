@@ -43,7 +43,7 @@ fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::resource("/chat/{group_id}")
             .route(web::get().to(routes::chat::start_connection::handle))
-            .wrap(middleware::auth::AuthGuard)
+            .wrap(middleware::auth::AuthGuard),
     );
 }
 
