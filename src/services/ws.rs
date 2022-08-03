@@ -21,9 +21,9 @@ pub struct WsConn {
 }
 
 impl WsConn {
-    pub fn new(room: Uuid, lobby: Addr<Lobby>) -> WsConn {
+    pub fn new(room: Uuid, lobby: Addr<Lobby>, id : Uuid) -> WsConn {
         WsConn {
-            id: Uuid::new_v4(),
+            id,
             room,
             hb: Instant::now(),
             lobby_addr: lobby,

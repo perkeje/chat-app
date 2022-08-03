@@ -9,7 +9,7 @@ use actix_web::{
 
 use actix::Actor;
 
-// pub mod middleware;
+pub mod middleware;
 pub mod models;
 pub mod routes;
 pub mod schema;
@@ -23,7 +23,7 @@ pub async fn start() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new(crate::state::app::initialize_pool()))
             .app_data(web::Data::new(server.clone()))
-            .configure(crate::config)
+            .configure(config)
             .wrap(setup_cors())
     })
     .workers(4)
@@ -42,7 +42,8 @@ fn config(cfg: &mut web::ServiceConfig) {
     );
     cfg.service(
         web::resource("/chat/{group_id}")
-            .route(web::get().to(routes::chat::start_connection::handle)),
+            .route(web::get().to(routes::chat::start_connection::handle))
+            .wrap(middleware::auth::AuthGuard)
     );
 }
 
